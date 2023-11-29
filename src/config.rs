@@ -41,6 +41,8 @@ impl Config {
         let config_file = workspaces_file_path.to_str().unwrap().to_string();
         let result_file = config_dir.join("result.txt").to_str().unwrap().to_string();
 
+        workspaces.sort_by(|a, b| a.name.cmp(&b.name));
+
         Config {
             workspaces,
             config_file,
