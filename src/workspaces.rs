@@ -157,7 +157,9 @@ pub fn search(config: &Config) {
     });
 
     // output the result
-    fs::write(&config.result_file, &result).expect("Should have been able to write to result file.");
+    if !result.is_empty() {
+        fs::write(&config.result_file, &result).expect("Should have been able to write to result file.");
+    }
 }
 
 // Utility to fix a double input problem with Windows
