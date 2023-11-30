@@ -19,8 +19,13 @@ pub fn list_workspaces(config: &Config) {
         return ();
     }
 
+    // unwrap is safe because I've already checked for an empty vector, so
+    // it will always have a value
+    let label_size = config.workspaces.iter().map(|w| w.name.len()).max().unwrap() + 2;
+
     for workspace in config.workspaces.iter() {
-        println!("{}: {}", workspace.name, workspace.path);
+        let label = format!("{:.<width$}", workspace.name, width=label_size);
+        println!("{}{}", label, workspace.path);
     }
 }
 
