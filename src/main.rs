@@ -14,8 +14,11 @@ struct Cli {
 
 #[derive(Subcommand, Debug)]
 enum Subcommands {
+    /// Add the current path as a workspace with the given name
     Add { name: String },
+    /// Remove the workspace with the given name
     Remove { name: String },
+    /// List all saved workspaces
     List
 }
 
