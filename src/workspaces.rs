@@ -30,7 +30,6 @@ pub fn list_workspaces(config: &Config) {
 }
 
 pub fn add_workspace(name: &str, config: &mut Config) {
-    println!("Adding workspace: {}", name);
     let current_path = current_dir().expect("Should have been able to read current directory");
     config.workspaces.push(
         Workspace {
@@ -40,21 +39,21 @@ pub fn add_workspace(name: &str, config: &mut Config) {
     );
 
     config.write_to_file().expect("Should have been able to write to config file");
+    println!("Workspace added: {} ({})", name, current_path.to_str().unwrap().to_string());
 }
 
 pub fn remove_workspace(name: &str, config: &mut Config) {
-    println!("Removing workspace: {}", name);
-
     let found_index = match config.workspaces.iter().position(|workspace| workspace.name == name) {
         Some(index) => index,
         None => {
-            println!("Workspace not found.");
+            println!("Workspace '{}' not found.", &name);
             return ()
         }
     };
 
     config.workspaces.remove(found_index);
     config.write_to_file().expect("Should have been able to write to config file");
+    println!("Workspace removed: {}", name);
 }
 
 pub fn search(config: &Config) {
@@ -147,6 +146,7 @@ pub fn search(config: &Config) {
             last_results = sym.fuzzy_search(&input);
         }
 
+        // Draw input and ordered workspace list
         let mut pencil = Pencil::new(window.canvas_mut());
         let input_text = format!("> {}", &input);
         pencil.draw_text(&input_text, Vec2::xy(1,1));
