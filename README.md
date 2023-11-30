@@ -6,6 +6,8 @@ Since no process is allowed to modify the working directory of the terminal it r
 the chosen workspace in a text file, that can be then used as a parameter for the `cd` command. This 
 README shows a simple way to do this both on Windows and Linux.
 
+![preview of the workspaces program that shows how fast you can switch folders](./assets/workspaces.gif)
+
 # Installation
 For now, you can install this application only through the following command:
 ```sh
