@@ -8,7 +8,7 @@ use dialoguer::theme::ColorfulTheme;
 pub fn list_workspaces(config: &Config) {
     if config.workspaces.is_empty() {
         println!("No workspaces found.");
-        return ();
+        return;
     }
 
     // unwrap is safe because I've already checked for an empty vector, so
@@ -31,7 +31,7 @@ pub fn add_workspace(name: &str, config: &mut Config) {
     );
 
     config.write_to_file().expect("Should have been able to write to config file");
-    println!("Workspace added: {} ({})", name, current_path.to_str().unwrap().to_string());
+    println!("Workspace added: {} ({})", name, current_path.to_str().unwrap());
 }
 
 pub fn remove_workspace(name: &str, config: &mut Config) {
@@ -39,7 +39,7 @@ pub fn remove_workspace(name: &str, config: &mut Config) {
         Some(index) => index,
         None => {
             println!("Workspace '{}' not found.", &name);
-            return ()
+            return;
         }
     };
 
@@ -54,21 +54,23 @@ pub fn search(config: &Config) {
         .map(|w| w.name.to_string())
         .collect::<Vec<String>>();
 
-    let selected = FuzzySelect::with_theme(&ColorfulTheme::default())
+    let selected_opt = FuzzySelect::with_theme(&ColorfulTheme::default())
         .with_prompt("Select workspace")
         .default(0)
         .items(&workspaces_names)
-        .interact()
+        .interact_opt()
         .unwrap();
     
-    let name = workspaces_names[selected].to_string();
+    if let Some(selected) = selected_opt {
+        let name = workspaces_names[selected].to_string();
 
-    // we are sure that the workspace exists
-    let workspace = config.workspaces
-        .iter()
-        .find(|w| w.name == name)
-        .unwrap();
-    
-    // output the result
-    fs::write(&config.result_file, &workspace.path).expect("Should have been able to write to result file.");
+        // we are sure that the workspace exists
+        let workspace = config.workspaces
+            .iter()
+            .find(|w| w.name == name)
+            .unwrap();
+        
+        // output the result
+        fs::write(&config.result_file, &workspace.path).expect("Should have been able to write to result file.");
+    }
 }

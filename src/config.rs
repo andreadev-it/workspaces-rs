@@ -15,7 +15,7 @@ impl Config {
         let project_dirs = ProjectDirectories::from_project_name("workspaces-rs");
         let config_dir = project_dirs.project_config_dir();
         if !config_dir.exists() {
-            fs::create_dir(&config_dir).expect("Should have been able to create configuration directory.");
+            fs::create_dir(config_dir).expect("Should have been able to create configuration directory.");
         }
 
         let workspaces_file = config_dir.join("workspaces.txt");
@@ -27,7 +27,7 @@ impl Config {
         for line in workspaces_txt.lines() {
             if line.is_empty() { continue; }
 
-            let mut sections = line.split(",");
+            let mut sections = line.split(',');
             let name = sections.next().unwrap();
             let path = sections.next().unwrap();
             workspaces.push(
