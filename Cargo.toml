@@ -9,6 +9,5 @@ path = "src/main.rs"
 
 [dependencies]
 clap = { version = "4.4.10", features = ["derive"] }
-fuzzy-search = "0.1.0"
 directories = "0.4.0"
-ruscii = "0.4.0"
+dialoguer = { version = "0.11.0", features = ["fuzzy-select"] }
