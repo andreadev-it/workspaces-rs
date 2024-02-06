@@ -4,6 +4,7 @@ use std::fs;
 
 use dialoguer::FuzzySelect;
 use dialoguer::theme::ColorfulTheme;
+use colored::Colorize;
 
 pub fn list_workspaces(config: &Config) {
     if config.workspaces.is_empty() {
@@ -13,11 +14,13 @@ pub fn list_workspaces(config: &Config) {
 
     // unwrap is safe because I've already checked for an empty vector, so
     // it will always have a value
-    let label_size = config.workspaces.iter().map(|w| w.name.len()).max().unwrap() + 2;
+    let label_size = config.workspaces.iter().map(|w| w.name.len()).max().unwrap() + 4;
 
+    println!("{:<width$}{}", "Name:".bold(), "Path:".bold(), width=label_size);
     for workspace in config.workspaces.iter() {
-        let label = format!("{:.<width$}", workspace.name, width=label_size);
-        println!("{}{}", label, workspace.path);
+        let pad = label_size - workspace.name.len();
+        let label = format!("{}{:.<width$}", workspace.name, "".dimmed(), width=pad);
+        println!("{}{}", label, workspace.path.yellow());
     }
 }
 
@@ -31,21 +34,21 @@ pub fn add_workspace(name: &str, config: &mut Config) {
     );
 
     config.write_to_file().expect("Should have been able to write to config file");
-    println!("Workspace added: {} ({})", name, current_path.to_str().unwrap());
+    println!("Workspace added: {} ({})", name.bold(), current_path.to_str().unwrap().yellow());
 }
 
 pub fn remove_workspace(name: &str, config: &mut Config) {
     let found_index = match config.workspaces.iter().position(|workspace| workspace.name == name) {
         Some(index) => index,
         None => {
-            println!("Workspace '{}' not found.", &name);
+            println!("Workspace '{}' not found.", &name.bold());
             return;
         }
     };
 
     config.workspaces.remove(found_index);
     config.write_to_file().expect("Should have been able to write to config file");
-    println!("Workspace removed: {}", name);
+    println!("Workspace removed: {}", name.bold());
 }
 
 pub fn search(config: &Config) {
