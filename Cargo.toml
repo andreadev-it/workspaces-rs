@@ -4,7 +4,6 @@ version = "0.1.0"
 edition = "2021"
 license = "MIT"
 description = "A CLI tool to switch between directories"
-documentation = "https://docs.rs/workspaces/latest/"
 repository = "https://github.com/andreadev-it/workspaces-rs"
 keywords = ["cli", "tool", "directories", "folders", "navigating"]
 categories = ["command-line-utilities", "filesystem"]
