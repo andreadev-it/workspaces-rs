@@ -9,9 +9,9 @@ README shows a simple way to do this both on Windows and Linux.
 ![preview of the workspaces program that shows how fast you can switch folders](./assets/workspaces.gif)
 
 # Installation
-For now, you can install this application only through the following command:
+You can install this application only through the following command:
 ```sh
-cargo install --git https://github.com/andreadev-it/workspaces-rs
+cargo install workspaces-rs
 ```
 This will build and install the executable in the `~/.cargo/bin` directory.
 
