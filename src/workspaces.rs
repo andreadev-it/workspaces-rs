@@ -26,6 +26,17 @@ pub fn list_workspaces(config: &Config) {
 
 pub fn add_workspace(name: &str, config: &mut Config) {
     let current_path = current_dir().expect("Should have been able to read current directory");
+
+    let is_dup = config.workspaces
+        .iter()
+        .find(|w| w.name == name)
+        .is_some();
+
+    if is_dup {
+        println!("There already is a workspace called \"{}\"", name);
+        return;
+    }
+
     config.workspaces.push(
         Workspace {
             name: name.to_string(),
